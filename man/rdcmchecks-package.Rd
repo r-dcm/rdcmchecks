@@ -11,6 +11,7 @@ Many packages in the r-dcm family take similar arguments, which are checked for 
 \seealso{
 Useful links:
 \itemize{
+  \item \url{https://rdcmchecks.r-dcm.org}
   \item \url{https://github.com/r-dcm/rdcmchecks}
   \item Report bugs at \url{https://github.com/r-dcm/rdcmchecks/issues}
 }

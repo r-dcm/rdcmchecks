@@ -20,10 +20,10 @@ Depends:
 Imports: 
     cli,
     dplyr,
-    glue,
     rlang,
     tibble
 Suggests: 
+    spelling,
     testthat (>= 3.0.0)
 Config/Needs/website: r-dcm/rdcmtemplate
 Config/testthat/edition: 3

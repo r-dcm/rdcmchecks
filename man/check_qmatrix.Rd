@@ -2,12 +2,11 @@
 % Please edit documentation in R/check-qmatrix.R
 \name{check_qmatrix}
 \alias{check_qmatrix}
-\title{Title}
+\title{Check that a Q-matrix follows the expected structure}
 \usage{
 check_qmatrix(
   x,
   identifier = NULL,
-  item_levels = NULL,
   arg = rlang::caller_arg(x),
   call = rlang::caller_env()
 )
@@ -18,8 +17,6 @@ check_qmatrix(
 \item{identifier}{The provided item identifier, as a character string. If no
 item identifier is present, the value should be \code{NULL} (the default).}
 
-\item{item_levels}{Expected}
-
 \item{arg}{The name of the argument.}
 
 \item{call}{The call stack.}
@@ -28,5 +25,14 @@ item identifier is present, the value should be \code{NULL} (the default).}
 A \link[tibble:tibble-package]{tibble} with one row per item.
 }
 \description{
-Title
+The Q-matrix should be 1 row per item and 1 column per attribute, with an
+optional additional column to store item identifiers. Each value of the
+Q-matrix should be a 0 or 1 to indicate measurement of the attribute by the
+given item.
+}
+\examples{
+example_qmatrix <- tibble::tibble(item = paste0("item_", 1:5),
+                                  att_1 = c(0, 0, 1, 1, 1),
+                                  att_2 = c(1, 1, 1, 0, 0))
+check_qmatrix(example_qmatrix, identifier = "item")
 }

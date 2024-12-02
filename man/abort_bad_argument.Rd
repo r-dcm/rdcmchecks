@@ -22,10 +22,8 @@ abort_bad_argument(
 
 \item{footer}{Additional text to add to the error message.}
 
-\item{custom}{A custom error message to override the defaul message of \code{must}
-\itemize{
-\item \code{not}.
-}}
+\item{custom}{A custom error message to override the default message of
+\code{must} + \code{not}.}
 
 \item{call}{The call stack.}
 }

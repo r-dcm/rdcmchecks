@@ -4,8 +4,8 @@
 #' @param must The requirement for input values that is not met.
 #' @param not The current state of `argument` that is problematic.
 #' @param footer Additional text to add to the error message.
-#' @param custom A custom error message to override the defaul message of `must`
-#'   + `not`.
+#' @param custom A custom error message to override the default message of
+#'   `must` + `not`.
 #' @param call The call stack.
 #'
 #' @return An error message created by [cli::cli_abort()].
