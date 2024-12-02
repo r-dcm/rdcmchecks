@@ -25,3 +25,13 @@ You can install the development version of rdcmchecks from
 # install.packages("pak")
 pak::pak("r-dcm/rdcmchecks")
 ```
+
+------------------------------------------------------------------------
+
+## Contributions and Code of Conduct
+
+Contributions are welcome. To ensure a smooth process, please review the
+[Contributing Guide](https://dcmdata.r-dcm.org/CONTRIBUTING.html).
+Please note that the rdcmchecks project is released with a [Contributor
+Code of Conduct](https://rdcmchecks.r-dcm.org/CODE_OF_CONDUCT.html). By
+contributing to this project, you agree to abide by its terms.
