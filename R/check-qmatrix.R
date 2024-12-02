@@ -55,7 +55,7 @@ check_item_levels <- function(x, identifier, item_levels,
                               arg = rlang::caller_arg(x),
                               call = rlang::caller_env()) {
   if (is.null(identifier) && !is.null(item_levels)) {
-    x <- x %>%
+    x <- x |>
       dplyr::mutate(item_id = item_levels,
                     item_id = factor(.data$item_id, levels = item_levels),
                     .before = 1)
@@ -78,20 +78,20 @@ check_item_levels <- function(x, identifier, item_levels,
         call = call
       )
     }
-    x <- x %>%
-      dplyr::rename(item_id = !!identifier) %>%
-      dplyr::mutate(item_id = factor(.data$item_id, levels = item_levels)) %>%
+    x <- x |>
+      dplyr::rename(item_id = !!identifier) |>
+      dplyr::mutate(item_id = factor(.data$item_id, levels = item_levels)) |>
       dplyr::arrange(.data$item_id)
   } else if (is.null(identifier) && is.null(item_levels)) {
-    x <- x %>%
+    x <- x |>
       dplyr::mutate(item_id = seq_len(dplyr::n()),
                     item_id = factor(.data$item_id, levels = .data$item_id),
-                    .before = 1) %>%
+                    .before = 1) |>
       dplyr::arrange(.data$item_id)
   } else if (!is.null(identifier) && is.null(item_levels)) {
-    x <- x %>%
-      dplyr::rename(item_id = !!identifier) %>%
-      dplyr::mutate(item_id = factor(.data$item_id, levels = .data$item_id)) %>%
+    x <- x |>
+      dplyr::rename(item_id = !!identifier) |>
+      dplyr::mutate(item_id = factor(.data$item_id, levels = .data$item_id)) |>
       dplyr::arrange(.data$item_id)
   }
 

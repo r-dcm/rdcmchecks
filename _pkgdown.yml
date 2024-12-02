@@ -1,0 +1,5 @@
+template:
+  package: rdcmtemplate
+  bootstrap: 5
+
+url: https://rdcmchecks.r-dcm.org
