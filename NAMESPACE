@@ -2,4 +2,5 @@
 
 export(abort_bad_argument)
 export(check_qmatrix)
+export(clean_qmatrix)
 importFrom(rlang,.data)

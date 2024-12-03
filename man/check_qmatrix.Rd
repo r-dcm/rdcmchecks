@@ -2,9 +2,17 @@
 % Please edit documentation in R/check-qmatrix.R
 \name{check_qmatrix}
 \alias{check_qmatrix}
+\alias{clean_qmatrix}
 \title{Check that a Q-matrix follows the expected structure}
 \usage{
 check_qmatrix(
+  x,
+  identifier = NULL,
+  arg = rlang::caller_arg(x),
+  call = rlang::caller_env()
+)
+
+clean_qmatrix(
   x,
   identifier = NULL,
   arg = rlang::caller_arg(x),
@@ -22,17 +30,47 @@ item identifier is present, the value should be \code{NULL} (the default).}
 \item{call}{The call stack.}
 }
 \value{
-A \link[tibble:tibble-package]{tibble} with one row per item.
+\code{check_qmatrix} return the original Q-matrix (if the checks pass) as
+a \link[tibble:tibble-package]{tibble} with one row per item.
+
+\code{clean_qmatrix} returns a list with four elements:
+\itemize{
+\item \code{clean_qmatrix}: The cleaned Q-matrix
+\item \code{attribute_names}: The real names of the attributes
+\item \code{item_identifier}: The real name of the item identifier
+\item \code{item_names}: The real names of the items
+}
 }
 \description{
 The Q-matrix should be 1 row per item and 1 column per attribute, with an
 optional additional column to store item identifiers. Each value of the
 Q-matrix should be a 0 or 1 to indicate measurement of the attribute by the
-given item.
+given item. \code{\link[=clean_qmatrix]{clean_qmatrix()}} calls \code{\link[=check_qmatrix]{check_qmatrix()}} to verify the expected
+structure, and then performs additional data manipulation to provide standard
+conventions. See details for additional information.
+}
+\details{
+In many instances, it's important to have standard conventions for a Q-matrix
+so that we know what to expect (e.g., item identifiers, attribute names).
+\code{\link[=clean_qmatrix]{clean_qmatrix()}} provides this standardization. For the cleaned Q-matrix,
+all items are numbered \code{1}-\code{N}, where \code{N} is the number of items, and the
+column of item numbers is always named \code{item_id}. Additionally, all
+attributes are renamed \code{att1}, \code{att2}, \code{att3}, etc. Finally, all columns are
+coerced to integer values.
+
+To ensure downstream functions are able to identify the original
+(pre-cleaned) values, \code{\link[=clean_qmatrix]{clean_qmatrix()}} returns a list that includes the
+cleaned Q-matrix, as well as metadata that includes look-ups from the
+original to cleaned values.
 }
 \examples{
 example_qmatrix <- tibble::tibble(item = paste0("item_", 1:5),
                                   att_1 = c(0, 0, 1, 1, 1),
                                   att_2 = c(1, 1, 1, 0, 0))
 check_qmatrix(example_qmatrix, identifier = "item")
+
+example_qmatrix <- tibble::tibble(item = paste0("item_", 1:5),
+                                  att_1 = c(0, 0, 1, 1, 1),
+                                  att_2 = c(1, 1, 1, 0, 0))
+clean_qmatrix(example_qmatrix, identifier = "item")
 }

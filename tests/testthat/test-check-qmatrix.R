@@ -56,3 +56,45 @@ test_that("check qmatrix", {
   expect_identical(check_qmatrix(check_q, identifier = "item"), check_q)
   expect_identical(check_qmatrix(check_q_null, identifier = NULL), check_q_null)
 })
+
+test_that("clean qmatrix", {
+  # dtmr -----------------------------------------------------------------------
+  cleaned <- clean_qmatrix(dcmdata::dtmr_qmatrix, identifier = "item")
+
+  expect_equal(dim(cleaned$clean_qmatrix), dim(dcmdata::dtmr_qmatrix))
+  expect_equal(colnames(cleaned$clean_qmatrix),
+               c("item_id", paste0("att", 1:4)))
+  expect_true(all(vapply(cleaned$clean_qmatrix, is.integer, logical(1))))
+
+  expect_equal(names(cleaned$attribute_names),
+               colnames(dcmdata::dtmr_qmatrix)[-1])
+  expect_equal(cleaned$item_identifier, colnames(dcmdata::dtmr_qmatrix)[1])
+  expect_equal(names(cleaned$item_names), dcmdata::dtmr_qmatrix$item)
+
+  # ecpe -----------------------------------------------------------------------
+  cleaned <- clean_qmatrix(dcmdata::ecpe_qmatrix, identifier = "item_id")
+
+  expect_equal(dim(cleaned$clean_qmatrix), dim(dcmdata::ecpe_qmatrix))
+  expect_equal(colnames(cleaned$clean_qmatrix),
+               c("item_id", paste0("att", 1:3)))
+  expect_true(all(vapply(cleaned$clean_qmatrix, is.integer, logical(1))))
+
+  expect_equal(names(cleaned$attribute_names),
+               colnames(dcmdata::ecpe_qmatrix)[-1])
+  expect_equal(cleaned$item_identifier, colnames(dcmdata::ecpe_qmatrix)[1])
+  expect_equal(names(cleaned$item_names), dcmdata::ecpe_qmatrix$item_id)
+
+  # mdm ------------------------------------------------------------------------
+  cleaned <- clean_qmatrix(dcmdata::mdm_qmatrix[, -1])
+
+  expect_equal(dim(cleaned$clean_qmatrix), dim(dcmdata::mdm_qmatrix))
+  expect_equal(colnames(cleaned$clean_qmatrix),
+               c("item_id", paste0("att", 1)))
+  expect_equal(cleaned$clean_qmatrix$item_id, 1:4)
+  expect_true(all(vapply(cleaned$clean_qmatrix, is.integer, logical(1))))
+
+  expect_equal(names(cleaned$attribute_names),
+               colnames(dcmdata::mdm_qmatrix)[-1])
+  expect_equal(cleaned$item_identifier, "item_id")
+  expect_equal(names(cleaned$item_names), as.character(1:4))
+})
