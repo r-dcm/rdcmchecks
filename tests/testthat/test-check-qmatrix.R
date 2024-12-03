@@ -61,9 +61,9 @@ test_that("clean qmatrix", {
   # dtmr -----------------------------------------------------------------------
   cleaned <- clean_qmatrix(dcmdata::dtmr_qmatrix, identifier = "item")
 
-  expect_equal(dim(cleaned$clean_qmatrix), dim(dcmdata::dtmr_qmatrix))
+  expect_equal(dim(cleaned$clean_qmatrix), dim(dcmdata::dtmr_qmatrix[, -1]))
   expect_equal(colnames(cleaned$clean_qmatrix),
-               c("item_id", paste0("att", 1:4)))
+               paste0("att", 1:4))
   expect_true(all(vapply(cleaned$clean_qmatrix, is.integer, logical(1))))
 
   expect_equal(names(cleaned$attribute_names),
@@ -74,9 +74,9 @@ test_that("clean qmatrix", {
   # ecpe -----------------------------------------------------------------------
   cleaned <- clean_qmatrix(dcmdata::ecpe_qmatrix, identifier = "item_id")
 
-  expect_equal(dim(cleaned$clean_qmatrix), dim(dcmdata::ecpe_qmatrix))
+  expect_equal(dim(cleaned$clean_qmatrix), dim(dcmdata::ecpe_qmatrix[, -1]))
   expect_equal(colnames(cleaned$clean_qmatrix),
-               c("item_id", paste0("att", 1:3)))
+               paste0("att", 1:3))
   expect_true(all(vapply(cleaned$clean_qmatrix, is.integer, logical(1))))
 
   expect_equal(names(cleaned$attribute_names),
@@ -87,10 +87,9 @@ test_that("clean qmatrix", {
   # mdm ------------------------------------------------------------------------
   cleaned <- clean_qmatrix(dcmdata::mdm_qmatrix[, -1])
 
-  expect_equal(dim(cleaned$clean_qmatrix), dim(dcmdata::mdm_qmatrix))
+  expect_equal(dim(cleaned$clean_qmatrix), dim(dcmdata::mdm_qmatrix[, -1]))
   expect_equal(colnames(cleaned$clean_qmatrix),
-               c("item_id", paste0("att", 1)))
-  expect_equal(cleaned$clean_qmatrix$item_id, 1:4)
+               paste0("att", 1))
   expect_true(all(vapply(cleaned$clean_qmatrix, is.integer, logical(1))))
 
   expect_equal(names(cleaned$attribute_names),

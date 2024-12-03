@@ -53,10 +53,9 @@ conventions. See details for additional information.
 In many instances, it's important to have standard conventions for a Q-matrix
 so that we know what to expect (e.g., item identifiers, attribute names).
 \code{\link[=clean_qmatrix]{clean_qmatrix()}} provides this standardization. For the cleaned Q-matrix,
-all items are numbered \code{1}-\code{N}, where \code{N} is the number of items, and the
-column of item numbers is always named \code{item_id}. Additionally, all
-attributes are renamed \code{att1}, \code{att2}, \code{att3}, etc. Finally, all columns are
-coerced to integer values.
+item identifiers and item names are removed. Additionally, all attributes are
+renamed \code{att1}, \code{att2}, \code{att3}, etc. Finally, all columns are coerced to
+integer values.
 
 To ensure downstream functions are able to identify the original
 (pre-cleaned) values, \code{\link[=clean_qmatrix]{clean_qmatrix()}} returns a list that includes the

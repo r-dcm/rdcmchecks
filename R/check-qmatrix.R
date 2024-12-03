@@ -16,10 +16,9 @@
 #' In many instances, it's important to have standard conventions for a Q-matrix
 #' so that we know what to expect (e.g., item identifiers, attribute names).
 #' [clean_qmatrix()] provides this standardization. For the cleaned Q-matrix,
-#' all items are numbered `1`-`N`, where `N` is the number of items, and the
-#' column of item numbers is always named `item_id`. Additionally, all
-#' attributes are renamed `att1`, `att2`, `att3`, etc. Finally, all columns are
-#' coerced to integer values.
+#' item identifiers and item names are removed. Additionally, all attributes are
+#' renamed `att1`, `att2`, `att3`, etc. Finally, all columns are coerced to
+#' integer values.
 #'
 #' To ensure downstream functions are able to identify the original
 #' (pre-cleaned) values, [clean_qmatrix()] returns a list that includes the
@@ -104,10 +103,8 @@ clean_qmatrix <- function(x, identifier = NULL,
   )
 
   clean_qmatrix <- x |>
-    dplyr::rename(item_id = {{ identifier }}) |>
-    dplyr::mutate(item_id = meta$item_names[.data$item_id]) |>
-    dplyr::rename_with(.fn = \(x) meta$attribute_names[x],
-                       .cols = -"item_id") |>
+    dplyr::select(-{{ identifier }}) |>
+    dplyr::rename_with(.fn = \(x) meta$attribute_names[x]) |>
     dplyr::mutate(dplyr::across(dplyr::everything(), as.integer))
 
   c(list(clean_qmatrix = clean_qmatrix), meta)
