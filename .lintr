@@ -1,0 +1,7 @@
+linters: linters_with_defaults() # see vignette("lintr")
+exclusions: list(
+    "R/check-class.R" = list(
+      object_name_linter = 19
+    )
+  )
+encoding: "UTF-8"
