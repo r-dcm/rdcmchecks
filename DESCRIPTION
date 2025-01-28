@@ -20,8 +20,10 @@ Depends:
 Imports: 
     cli,
     dplyr,
+    readr,
     rlang,
-    tibble
+    tibble,
+    tidyr
 Suggests: 
     dcmdata (>= 0.0.0.9000),
     S7,
