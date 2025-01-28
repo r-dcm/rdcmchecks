@@ -26,8 +26,8 @@
 #' original to cleaned values.
 #'
 #'
-#' @returns `check_qmatrix` return the original Q-matrix (if the checks pass) as
-#'   a [tibble][tibble::tibble-package] with one row per item.
+#' @returns `check_qmatrix` returns the original Q-matrix (if the checks pass)
+#'   as a [tibble][tibble::tibble-package] with one row per item.
 #' @export
 #'
 #' @examples
@@ -38,7 +38,16 @@
 check_qmatrix <- function(x, identifier = NULL,
                           arg = rlang::caller_arg(x),
                           call = rlang::caller_env()) {
-  if (!is.null(identifier)) identifier <- rlang::enquo(identifier)
+  if (!is.null(identifier) && !(identifier %in% colnames(x))) {
+    abort_bad_argument(arg = arg,
+                       custom = cli::format_message(
+                         c("Specified {.arg identifier}, {.val {identifier}},",
+                           "not found in {.arg {arg}}")
+                       ),
+                       call = call)
+  } else if (!is.null(identifier)) {
+    identifier <- rlang::enquo(identifier)
+  }
 
   if (!inherits(x, "data.frame")) {
     abort_bad_argument(arg = arg, must = "be a data frame", not = typeof(x),
@@ -88,6 +97,7 @@ clean_qmatrix <- function(x, identifier = NULL,
                           call = rlang::caller_env()) {
   x <- check_qmatrix(x, identifier = identifier, arg = arg, call = call)
 
+  item_identifier <- identifier
   if (is.null(identifier)) {
     x <- tibble::rowid_to_column(x, var = "item_id")
     identifier <- "item_id"
@@ -98,7 +108,7 @@ clean_qmatrix <- function(x, identifier = NULL,
       paste0("att", seq_len(ncol(x) - 1)),
       colnames(x)[-which(colnames(x) == identifier)]
     ),
-    item_identifier = identifier,
+    item_identifier = item_identifier,
     item_names = rlang::set_names(seq_len(nrow(x)), x[[identifier]])
   )
 

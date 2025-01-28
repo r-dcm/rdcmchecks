@@ -30,8 +30,8 @@ item identifier is present, the value should be \code{NULL} (the default).}
 \item{call}{The call stack.}
 }
 \value{
-\code{check_qmatrix} return the original Q-matrix (if the checks pass) as
-a \link[tibble:tibble-package]{tibble} with one row per item.
+\code{check_qmatrix} returns the original Q-matrix (if the checks pass)
+as a \link[tibble:tibble-package]{tibble} with one row per item.
 
 \code{clean_qmatrix} returns a list with four elements:
 \itemize{

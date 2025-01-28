@@ -17,6 +17,13 @@ test_that("check qmatrix", {
   expect_s3_class(err, "rlang_error")
   expect_match(err$message, "only 0 or 1")
 
+  test_q <- data.frame(item = paste0("I", 1:5),
+                       att1 = sample(0:1, 5, replace = TRUE),
+                       att2 = sample(0:1, 5, replace = TRUE))
+  err <- rlang::catch_cnd(check_qmatrix(test_q, identifier = "item_id"))
+  expect_s3_class(err, "rlang_error")
+  expect_match(err$message, "not found in")
+
 
   test1_q <- tibble::tibble(item = paste0("I_", 1:5),
                             att1 = c(0, 1, 1, 0, 1),
@@ -94,6 +101,6 @@ test_that("clean qmatrix", {
 
   expect_equal(names(cleaned$attribute_names),
                colnames(dcmdata::mdm_qmatrix)[-1])
-  expect_equal(cleaned$item_identifier, "item_id")
+  expect_equal(cleaned$item_identifier, NULL)
   expect_equal(names(cleaned$item_names), as.character(1:4))
 })
