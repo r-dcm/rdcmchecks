@@ -67,6 +67,7 @@ conventions. See details for additional information.</p>
 <span>  missing <span class="op">=</span> <span class="cn">NA</span>,</span>
 <span>  <span class="va">cleaned_qmatrix</span>,</span>
 <span>  arg_qmatrix <span class="op">=</span> <span class="fu">rlang</span><span class="fu">::</span><span class="fu"><a href="https://rlang.r-lib.org/reference/caller_arg.html" class="external-link">caller_arg</a></span><span class="op">(</span><span class="va">cleaned_qmatrix</span><span class="op">)</span>,</span>
+<span>  valid_names <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  arg <span class="op">=</span> <span class="fu">rlang</span><span class="fu">::</span><span class="fu"><a href="https://rlang.r-lib.org/reference/caller_arg.html" class="external-link">caller_arg</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span>,</span>
 <span>  call <span class="op">=</span> <span class="fu">rlang</span><span class="fu">::</span><span class="fu"><a href="https://rlang.r-lib.org/reference/stack.html" class="external-link">caller_env</a></span><span class="op">(</span><span class="op">)</span></span>
 <span><span class="op">)</span></span></code></pre></div>
@@ -106,6 +107,12 @@ default).</p></dd>
 <dt id="arg-arg-qmatrix">arg_qmatrix<a class="anchor" aria-label="anchor" href="#arg-arg-qmatrix"></a></dt>
 <dd><p>A character string with the name of the argument used to
 provide the Q-matrix.</p></dd>
+
+
+<dt id="arg-valid-names">valid_names<a class="anchor" aria-label="anchor" href="#arg-valid-names"></a></dt>
+<dd><p>An optional named vector of items (e.g., from a previous
+call to <code>clean_data()</code>). Used when checking new data objects for
+consistency with items used to estimate a model.</p></dd>
 
 </dl></div>
     <div class="section level2">
