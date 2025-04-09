@@ -19,6 +19,7 @@ clean_data(
   missing = NA,
   cleaned_qmatrix,
   arg_qmatrix = rlang::caller_arg(cleaned_qmatrix),
+  valid_names = NULL,
   arg = rlang::caller_arg(x),
   call = rlang::caller_env()
 )
@@ -41,6 +42,10 @@ default).}
 
 \item{arg_qmatrix}{A character string with the name of the argument used to
 provide the Q-matrix.}
+
+\item{valid_names}{An optional named vector of items (e.g., from a previous
+call to \code{\link[=clean_data]{clean_data()}}). Used when checking new data objects for
+consistency with items used to estimate a model.}
 }
 \value{
 \code{check_data} returns the original data (if the checks pass) as a

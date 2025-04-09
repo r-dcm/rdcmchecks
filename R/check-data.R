@@ -94,6 +94,9 @@ check_data <- function(x, identifier = NULL, missing = NA,
 #' @param cleaned_qmatrix A cleaned Q-matrix, from [clean_qmatrix()].
 #' @param arg_qmatrix A character string with the name of the argument used to
 #'   provide the Q-matrix.
+#' @param valid_names An optional named vector of items (e.g., from a previous
+#'   call to [clean_data()]). Used when checking new data objects for
+#'   consistency with items used to estimate a model.
 #'
 #' @returns `clean_data` returns a list with five elements:
 #'  * `clean_data`: The cleaned data
@@ -119,6 +122,7 @@ check_data <- function(x, identifier = NULL, missing = NA,
 #'            cleaned_qmatrix = qmatrix)
 clean_data <- function(x, identifier = NULL, missing = NA, cleaned_qmatrix,
                        arg_qmatrix = rlang::caller_arg(cleaned_qmatrix),
+                       valid_names = NULL,
                        arg = rlang::caller_arg(x),
                        call = rlang::caller_env()) {
   arg <- arg
@@ -138,6 +142,7 @@ clean_data <- function(x, identifier = NULL, missing = NA, cleaned_qmatrix,
                          qmat_id = cleaned_qmatrix$item_identifier,
                          arg_data = arg,
                          arg_qmat = arg_qmatrix,
+                         valid_names = valid_names,
                          call = call),
     list(
       respondent_identifier = identifier,
@@ -161,8 +166,7 @@ clean_data <- function(x, identifier = NULL, missing = NA, cleaned_qmatrix,
 }
 
 
-
-#' Title
+#' Check for consistent item names
 #'
 #' Item names can be provided in two places: As an identifier column in the
 #' Q-matrix, and as column names in the data. [reconcile_item_names()] ensures
@@ -182,11 +186,9 @@ clean_data <- function(x, identifier = NULL, missing = NA, cleaned_qmatrix,
 #'  * `item_names`: The real names of the items
 #' @noRd
 reconcile_item_names <- function(data_names, qmat_names, qmat_id,
-                                 arg_data, arg_qmat, call) {
-  extr_data <- setdiff(names(data_names), names(qmat_names))
-  miss_data <- setdiff(names(qmat_names), names(data_names))
+                                 arg_data, arg_qmat, valid_names, call) {
 
-  if (length(data_names) != length(qmat_names)) {
+  if ((length(data_names) != length(qmat_names)) && is.null(valid_names)) {
     abort_bad_argument(
       arg = arg_data,
       must = cli::format_message(c("have the same number of response columns",
@@ -202,26 +204,39 @@ reconcile_item_names <- function(data_names, qmat_names, qmat_id,
       ),
       call = call
     )
-  } else if (!is.null(qmat_id) && (length(extr_data) || length(miss_data))) {
-    abort_bad_argument(
-      arg = arg_data,
-      must = cli::format_message(c("must contain items that match those in the",
-                                   "Q-matrix specified by {.arg {arg_qmat}}")),
-      footer = c(
-        cli::format_message(
-          c(`!` = "Items found in {.arg {arg_data}} but not {.arg {arg_qmat}}:",
-            "{.val {cli::cli_vec(extr_data)}}")
-        ),
-        cli::format_message(
-          c(`!` = "Items found in {.arg {arg_qmat}} but not {.arg {arg_data}}:",
-            "{.val {cli::cli_vec(miss_data)}}")
-        )
-      ),
-      call = call
-    )
-  } else if (is.null(qmat_id)) {
+  }
+
+  if (is.null(qmat_id) && is.null(valid_names)) {
     qmat_id <- "item_id"
     qmat_names <- rlang::set_names(qmat_names, names(data_names))
+  } else if (is.null(qmat_id) && !is.null(valid_names)) {
+    qmat_id <- "item_id"
+    qmat_names <- valid_names
+  }
+  extr_data <- setdiff(names(data_names), names(qmat_names))
+  miss_data <- setdiff(names(qmat_names), names(data_names))
+
+  if (length(extr_data) || (length(miss_data) && is.null(valid_names))) {
+    extr_msg <- if (length(extr_data)) {
+      cli::format_message(
+        c(`i` = "Items found in {.arg {arg_data}} but not {.arg {arg_qmat}}:",
+          "{.val {cli::cli_vec(extr_data)}}")
+      )
+    }
+    miss_msg <- if (length(miss_data) && is.null(valid_names)) {
+      cli::format_message(
+        c(`i` = "Items found in {.arg {arg_qmat}} but not {.arg {arg_data}}:",
+          "{.val {cli::cli_vec(miss_data)}}")
+      )
+    }
+
+    abort_bad_argument(
+      arg = arg_data,
+      must = cli::format_message(c("contain items that match those in the",
+                                   "Q-matrix specified by {.arg {arg_qmat}}")),
+      footer = c(extr_msg, miss_msg),
+      call = call
+    )
   }
 
   list(item_identifier = qmat_id,
