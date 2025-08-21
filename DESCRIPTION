@@ -26,7 +26,6 @@ Imports:
     tidyr
 Suggests: 
     dcmdata,
-    S7,
     spelling,
     testthat (>= 3.0.0)
 Config/Needs/website: r-dcm/rdcmtemplate
