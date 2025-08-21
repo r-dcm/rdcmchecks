@@ -6,10 +6,19 @@ test_that("abort_bad_argument() is informative.", {
   )
   expect_snapshot(error = TRUE, {
     abort_bad_argument("size", "be an integer", not = "character")
-    abort_bad_argument("size", must = "be an integer", not = "character",
-                       footer = c(i = "please"))
-    abort_bad_argument("size", must = "be an integer", not = "character",
-                       footer = "required", custom = "A new error")
+    abort_bad_argument(
+      "size",
+      must = "be an integer",
+      not = "character",
+      footer = c(i = "please")
+    )
+    abort_bad_argument(
+      "size",
+      must = "be an integer",
+      not = "character",
+      footer = "required",
+      custom = "A new error"
+    )
   })
 })
 

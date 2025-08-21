@@ -13,8 +13,14 @@
 #'
 #' @examples
 #' try(abort_bad_argument(arg = "my_arg", must = "be a character vector"))
-abort_bad_argument <- function(arg, must = NULL, not = NULL, footer = NULL,
-                               custom = NULL, call = rlang::caller_env()) {
+abort_bad_argument <- function(
+  arg,
+  must = NULL,
+  not = NULL,
+  footer = NULL,
+  custom = NULL,
+  call = rlang::caller_env()
+) {
   msg <- "{.arg {arg}} must {must}"
   if (!is.null(not)) {
     msg <- paste0(msg, "; not {not}")

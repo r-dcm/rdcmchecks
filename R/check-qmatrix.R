@@ -35,38 +35,58 @@
 #'                                   att_1 = c(0, 0, 1, 1, 1),
 #'                                   att_2 = c(1, 1, 1, 0, 0))
 #' check_qmatrix(example_qmatrix, identifier = "item")
-check_qmatrix <- function(x, identifier = NULL,
-                          arg = rlang::caller_arg(x),
-                          call = rlang::caller_env()) {
+check_qmatrix <- function(
+  x,
+  identifier = NULL,
+  arg = rlang::caller_arg(x),
+  call = rlang::caller_env()
+) {
   if (!is.null(identifier) && !(identifier %in% colnames(x))) {
-    abort_bad_argument(arg = arg,
-                       custom = cli::format_message(
-                         c("Specified {.arg identifier}, {.val {identifier}},",
-                           "not found in {.arg {arg}}")
-                       ),
-                       call = call)
+    abort_bad_argument(
+      arg = arg,
+      custom = cli::format_message(
+        c(
+          "Specified {.arg identifier}, {.val {identifier}},",
+          "not found in {.arg {arg}}"
+        )
+      ),
+      call = call
+    )
   } else if (!is.null(identifier)) {
     identifier <- rlang::enquo(identifier)
   }
 
   if (!inherits(x, "data.frame")) {
-    abort_bad_argument(arg = arg, must = "be a data frame", not = typeof(x),
-                       call = call)
+    abort_bad_argument(
+      arg = arg,
+      must = "be a data frame",
+      not = typeof(x),
+      call = call
+    )
   }
 
   if (!all(sapply(dplyr::select(x, -{{ identifier }}), is.numeric))) {
-    abort_bad_argument(arg = arg,
-                       must = paste0("contain only numeric values of 0 or 1 ",
-                                     "in attribute columns"),
-                       call = call)
+    abort_bad_argument(
+      arg = arg,
+      must = paste0(
+        "contain only numeric values of 0 or 1 ",
+        "in attribute columns"
+      ),
+      call = call
+    )
   }
   x <- dplyr::mutate(x, dplyr::across(-{{ identifier }}, as.integer))
 
-  if (!all(sapply(dplyr::select(x, -{{ identifier }}),
-                  function(.x) all(.x %in% c(0L, 1L))))) {
-    abort_bad_argument(arg = arg,
-                       must = "contain only 0 or 1 in attribute columns",
-                       call = call)
+  if (
+    !all(sapply(dplyr::select(x, -{{ identifier }}), function(.x) {
+      all(.x %in% c(0L, 1L))
+    }))
+  ) {
+    abort_bad_argument(
+      arg = arg,
+      must = "contain only 0 or 1 in attribute columns",
+      call = call
+    )
   }
 
   if (!tibble::is_tibble(x)) {
@@ -75,7 +95,6 @@ check_qmatrix <- function(x, identifier = NULL,
     x
   }
 }
-
 
 
 #' @returns `clean_qmatrix` returns a list with four elements:
@@ -92,9 +111,12 @@ check_qmatrix <- function(x, identifier = NULL,
 #'                                   att_1 = c(0, 0, 1, 1, 1),
 #'                                   att_2 = c(1, 1, 1, 0, 0))
 #' clean_qmatrix(example_qmatrix, identifier = "item")
-clean_qmatrix <- function(x, identifier = NULL,
-                          arg = rlang::caller_arg(x),
-                          call = rlang::caller_env()) {
+clean_qmatrix <- function(
+  x,
+  identifier = NULL,
+  arg = rlang::caller_arg(x),
+  call = rlang::caller_env()
+) {
   x <- check_qmatrix(x, identifier = identifier, arg = arg, call = call)
 
   item_identifier <- identifier

@@ -39,23 +39,35 @@
 #'                                item2 = sample(0:1, 10, replace = TRUE),
 #'                                item3 = sample(0:1, 10, replace = TRUE))
 #' check_data(example_data, identifier = "person")
-check_data <- function(x, identifier = NULL, missing = NA,
-                       arg = rlang::caller_arg(x),
-                       call = rlang::caller_env()) {
+check_data <- function(
+  x,
+  identifier = NULL,
+  missing = NA,
+  arg = rlang::caller_arg(x),
+  call = rlang::caller_env()
+) {
   if (!is.null(identifier) && !(identifier %in% colnames(x))) {
-    abort_bad_argument(arg = arg,
-                       custom = cli::format_message(
-                         c("Specified {.arg identifier}, {.val {identifier}},",
-                           "not found in {.arg {arg}}")
-                       ),
-                       call = call)
+    abort_bad_argument(
+      arg = arg,
+      custom = cli::format_message(
+        c(
+          "Specified {.arg identifier}, {.val {identifier}},",
+          "not found in {.arg {arg}}"
+        )
+      ),
+      call = call
+    )
   } else if (!is.null(identifier)) {
     identifier <- rlang::enquo(identifier)
   }
 
   if (!inherits(x, "data.frame")) {
-    abort_bad_argument(arg = arg, must = "be a data frame", not = typeof(x),
-                       call = call)
+    abort_bad_argument(
+      arg = arg,
+      must = "be a data frame",
+      not = typeof(x),
+      call = call
+    )
   }
 
   # replace missing values with NA
@@ -66,22 +78,32 @@ check_data <- function(x, identifier = NULL, missing = NA,
         \(x) dplyr::na_if(x, missing)
       )
     ) |>
-    dplyr::mutate(dplyr::across(dplyr::where(\(x) is.character(x)),
-                                \(x) readr::parse_guess(x)))
+    dplyr::mutate(dplyr::across(dplyr::where(\(x) is.character(x)), \(x) {
+      readr::parse_guess(x)
+    }))
 
   if (!all(sapply(dplyr::select(x, -{{ identifier }}), is.numeric))) {
-    abort_bad_argument(arg = arg,
-                       must = paste0("contain only numeric values of 0 or 1 ",
-                                     "in response columns"),
-                       call = call)
+    abort_bad_argument(
+      arg = arg,
+      must = paste0(
+        "contain only numeric values of 0 or 1 ",
+        "in response columns"
+      ),
+      call = call
+    )
   }
   x <- dplyr::mutate(x, dplyr::across(-{{ identifier }}, as.integer))
 
-  if (!all(sapply(dplyr::select(x, -{{ identifier }}),
-                  function(.x) all(.x %in% c(0L, 1L))))) {
-    abort_bad_argument(arg = arg,
-                       must = "contain only 0 or 1 in response columns",
-                       call = call)
+  if (
+    !all(sapply(dplyr::select(x, -{{ identifier }}), function(.x) {
+      all(.x %in% c(0L, 1L))
+    }))
+  ) {
+    abort_bad_argument(
+      arg = arg,
+      must = "contain only 0 or 1 in response columns",
+      call = call
+    )
   }
 
   if (!tibble::is_tibble(x)) {
@@ -120,30 +142,44 @@ check_data <- function(x, identifier = NULL, missing = NA,
 #' qmatrix <- clean_qmatrix(example_qmatrix, identifier = "item")
 #' clean_data(example_data, identifier = "person",
 #'            cleaned_qmatrix = qmatrix)
-clean_data <- function(x, identifier = NULL, missing = NA, cleaned_qmatrix,
-                       arg_qmatrix = rlang::caller_arg(cleaned_qmatrix),
-                       valid_names = NULL,
-                       arg = rlang::caller_arg(x),
-                       call = rlang::caller_env()) {
+clean_data <- function(
+  x,
+  identifier = NULL,
+  missing = NA,
+  cleaned_qmatrix,
+  arg_qmatrix = rlang::caller_arg(cleaned_qmatrix),
+  valid_names = NULL,
+  arg = rlang::caller_arg(x),
+  call = rlang::caller_env()
+) {
   arg <- arg
-  x <- check_data(x, identifier = identifier, missing = missing,
-                  arg = arg, call = call)
+  x <- check_data(
+    x,
+    identifier = identifier,
+    missing = missing,
+    arg = arg,
+    call = call
+  )
 
   if (is.null(identifier)) {
     x <- tibble::rowid_to_column(x, var = "resp_id")
     identifier <- "resp_id"
   }
 
-  data_names <- rlang::set_names(seq_len(ncol(x) - 1),
-                                 colnames(x)[-which(colnames(x) == identifier)])
+  data_names <- rlang::set_names(
+    seq_len(ncol(x) - 1),
+    colnames(x)[-which(colnames(x) == identifier)]
+  )
   meta <- c(
-    reconcile_item_names(data_names = data_names,
-                         qmat_names = cleaned_qmatrix$item_names,
-                         qmat_id = cleaned_qmatrix$item_identifier,
-                         arg_data = arg,
-                         arg_qmat = arg_qmatrix,
-                         valid_names = valid_names,
-                         call = call),
+    reconcile_item_names(
+      data_names = data_names,
+      qmat_names = cleaned_qmatrix$item_names,
+      qmat_id = cleaned_qmatrix$item_identifier,
+      arg_data = arg,
+      arg_qmat = arg_qmatrix,
+      valid_names = valid_names,
+      call = call
+    ),
     list(
       respondent_identifier = identifier,
       respondent_names = rlang::set_names(seq_len(nrow(x)), x[[identifier]])
@@ -151,8 +187,11 @@ clean_data <- function(x, identifier = NULL, missing = NA, cleaned_qmatrix,
   )
 
   clean_data <- x |>
-    tidyr::pivot_longer(cols = -{{ identifier }}, names_to = "item_id",
-                        values_to = "score") |>
+    tidyr::pivot_longer(
+      cols = -{{ identifier }},
+      names_to = "item_id",
+      values_to = "score"
+    ) |>
     dplyr::filter(!is.na(.data$score)) |>
     dplyr::rename(resp_id = {{ identifier }}) |>
     dplyr::mutate(
@@ -185,15 +224,23 @@ clean_data <- function(x, identifier = NULL, missing = NA, cleaned_qmatrix,
 #'  * `item_identifier`: The real name of the item identifier
 #'  * `item_names`: The real names of the items
 #' @noRd
-reconcile_item_names <- function(data_names, qmat_names, qmat_id,
-                                 arg_data, arg_qmat, valid_names, call) {
-
+reconcile_item_names <- function(
+  data_names,
+  qmat_names,
+  qmat_id,
+  arg_data,
+  arg_qmat,
+  valid_names,
+  call
+) {
   if ((length(data_names) != length(qmat_names)) && is.null(valid_names)) {
     abort_bad_argument(
       arg = arg_data,
-      must = cli::format_message(c("have the same number of response columns",
-                                   "as there are items in the Q-matrix",
-                                   "specified by {.arg {arg_qmat}}")),
+      must = cli::format_message(c(
+        "have the same number of response columns",
+        "as there are items in the Q-matrix",
+        "specified by {.arg {arg_qmat}}"
+      )),
       footer = c(
         cli::format_message(
           c(`!` = "Response columns found in: {length(data_names)}")
@@ -219,26 +266,31 @@ reconcile_item_names <- function(data_names, qmat_names, qmat_id,
   if (length(extr_data) || (length(miss_data) && is.null(valid_names))) {
     extr_msg <- if (length(extr_data)) {
       cli::format_message(
-        c(`i` = "Items found in {.arg {arg_data}} but not {.arg {arg_qmat}}:",
-          "{.val {cli::cli_vec(extr_data)}}")
+        c(
+          `i` = "Items found in {.arg {arg_data}} but not {.arg {arg_qmat}}:",
+          "{.val {cli::cli_vec(extr_data)}}"
+        )
       )
     }
     miss_msg <- if (length(miss_data) && is.null(valid_names)) {
       cli::format_message(
-        c(`i` = "Items found in {.arg {arg_qmat}} but not {.arg {arg_data}}:",
-          "{.val {cli::cli_vec(miss_data)}}")
+        c(
+          `i` = "Items found in {.arg {arg_qmat}} but not {.arg {arg_data}}:",
+          "{.val {cli::cli_vec(miss_data)}}"
+        )
       )
     }
 
     abort_bad_argument(
       arg = arg_data,
-      must = cli::format_message(c("contain items that match those in the",
-                                   "Q-matrix specified by {.arg {arg_qmat}}")),
+      must = cli::format_message(c(
+        "contain items that match those in the",
+        "Q-matrix specified by {.arg {arg_qmat}}"
+      )),
       footer = c(extr_msg, miss_msg),
       call = call
     )
   }
 
-  list(item_identifier = qmat_id,
-       item_names = qmat_names)
+  list(item_identifier = qmat_id, item_names = qmat_names)
 }
