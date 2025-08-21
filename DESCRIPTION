@@ -25,12 +25,10 @@ Imports:
     tibble,
     tidyr
 Suggests: 
-    dcmdata (>= 0.0.0.9000),
+    dcmdata,
     S7,
     spelling,
     testthat (>= 3.0.0)
-Remotes: 
-    r-dcm/dcmdata
 Config/Needs/website: r-dcm/rdcmtemplate
 Config/testthat/edition: 3
 Config/Needs/documentation: openpharma/roxylint
