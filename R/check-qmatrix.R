@@ -106,7 +106,6 @@ check_qmatrix <- function(
 #' @export
 #' @rdname check_qmatrix
 #' @examples
-#'
 #' example_qmatrix <- tibble::tibble(item = paste0("item_", 1:5),
 #'                                   att_1 = c(0, 0, 1, 1, 1),
 #'                                   att_2 = c(1, 1, 1, 0, 0))
