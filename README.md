@@ -18,8 +18,14 @@ imported to any needed packages.
 
 ## Installation
 
-You can install the development version of rdcmchecks from
-[GitHub](https://github.com/) with:
+You can install the released version of rdcmchecks from
+[CRAN](https://cran.r-project.org/) with:
+
+``` r
+install.packages("rdcmchecks")
+```
+
+And the development version from [GitHub](https://github.com/) with:
 
 ``` r
 # install.packages("pak")
