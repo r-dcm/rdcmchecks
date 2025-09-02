@@ -8,7 +8,7 @@ Authors@R: c(
     person("Institute of Education Sciences", role = "fnd"),
     person("Accessible Teaching, Learning, and Assessment Systems", role = "fnd")
   )
-Description: Many packages in the r-dcm family take similar arguments,
+Description: Many packages in the 'r-dcm' family take similar arguments,
     which are checked for expected structures and values. Rather than
     duplicating code across several packages, commonly used check
     functions are included here.  This package can then be imported to

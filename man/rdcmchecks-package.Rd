@@ -6,7 +6,7 @@
 \alias{rdcmchecks-package}
 \title{rdcmchecks: Common Argument Checks for 'r-dcm' Packages}
 \description{
-Many packages in the r-dcm family take similar arguments, which are checked for expected structures and values. Rather than duplicating code across several packages, commonly used check functions are included here. This package can then be imported to access the check functions in other packages.
+Many packages in the 'r-dcm' family take similar arguments, which are checked for expected structures and values. Rather than duplicating code across several packages, commonly used check functions are included here. This package can then be imported to access the check functions in other packages.
 }
 \seealso{
 Useful links:
