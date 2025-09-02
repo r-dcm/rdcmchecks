@@ -23,6 +23,7 @@ Useful links:
 Other contributors:
 \itemize{
   \item University of Kansas [copyright holder]
+  \item Institute of Education Sciences [funder]
   \item Accessible Teaching, Learning, and Assessment Systems [funder]
 }
 
