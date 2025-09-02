@@ -9,3 +9,4 @@
 ^\.lintr$
 ^[.]?air[.]toml$
 ^\.vscode$
+^cran-comments\.md$
