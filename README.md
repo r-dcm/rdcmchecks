@@ -6,7 +6,7 @@
 <!-- badges: start -->
 
 [![R-CMD-check](https://github.com/r-dcm/rdcmchecks/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/r-dcm/rdcmchecks/actions/workflows/R-CMD-check.yaml)
-[![codecov](https://codecov.io/gh/r-dcm/rdcmchecks/graph/badge.svg?token=HiCeAU9gah)](https://codecov.io/gh/r-dcm/rdcmchecks)
+[![codecov](https://codecov.io/gh/r-dcm/rdcmchecks/graph/badge.svg?token=HiCeAU9gah)](https://app.codecov.io/gh/r-dcm/rdcmchecks)
 [![pkgdown](https://github.com/r-dcm/rdcmchecks/actions/workflows/pkgdown.yaml/badge.svg)](https://github.com/r-dcm/rdcmchecks/actions/workflows/pkgdown.yaml)
 <!-- badges: end -->
 
