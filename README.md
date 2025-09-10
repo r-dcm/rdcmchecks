@@ -5,9 +5,22 @@
 
 <!-- badges: start -->
 
+[![Project Status: Active – The project has reached a stable, usable
+state and is being actively
+developed.](https://www.repostatus.org/badges/latest/active.svg)](https://www.repostatus.org/#active)
+[![lifecycle](https://img.shields.io/badge/lifecycle-stable-brightgreen.svg)](https://lifecycle.r-lib.org/articles/stages.html)
+[![R package
+version](https://www.r-pkg.org/badges/version/rdcmchecks)](https://cran.r-project.org/package=rdcmchecks)
+[![Package
+downloads](https://cranlogs.r-pkg.org/badges/grand-total/rdcmchecks)](https://cran.r-project.org/package=rdcmchecks)</br>
 [![R-CMD-check](https://github.com/r-dcm/rdcmchecks/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/r-dcm/rdcmchecks/actions/workflows/R-CMD-check.yaml)
-[![codecov](https://codecov.io/gh/r-dcm/rdcmchecks/graph/badge.svg?token=HiCeAU9gah)](https://app.codecov.io/gh/r-dcm/rdcmchecks)
-[![pkgdown](https://github.com/r-dcm/rdcmchecks/actions/workflows/pkgdown.yaml/badge.svg)](https://github.com/r-dcm/rdcmchecks/actions/workflows/pkgdown.yaml)
+[![Codecov test
+coverage](https://codecov.io/gh/r-dcm/rdcmchecks/graph/badge.svg)](https://app.codecov.io/gh/r-dcm/rdcmchecks?branch=main)
+[![GitHub
+pages](https://github.com/r-dcm/rdcmchecks/actions/workflows/pkgdown.yaml/badge.svg)](https://github.com/r-dcm/rdcmchecks/actions/workflows/pkgdown.yaml)</br>
+[![Signed
+by](https://img.shields.io/badge/Keybase-Verified-brightgreen.svg)](https://keybase.io/wjakethompson)
+![License](https://img.shields.io/badge/License-MIT-blue.svg)
 <!-- badges: end -->
 
 The goal of rdcmchecks is to provide utility functions for checking
