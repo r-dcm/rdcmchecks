@@ -1,7 +1,7 @@
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
-# rdcmchecks
+# rdcmchecks <a href="https://rdcmchecks.r-dcm.org"><img src="man/figures/logo.png" align="right" height="138" alt="rdcmchecks website" /></a>
 
 <!-- badges: start -->
 
