@@ -38,4 +38,4 @@ Config/roxylint: list(linters = roxylint::tidy)
 Encoding: UTF-8
 Language: en-US
 Roxygen: list(markdown = TRUE, roclets = c("namespace", "rd", "roxylint::roxylint"))
-RoxygenNote: 7.3.2
+RoxygenNote: 7.3.3

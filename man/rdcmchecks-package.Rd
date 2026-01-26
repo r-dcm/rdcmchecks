@@ -6,6 +6,8 @@
 \alias{rdcmchecks-package}
 \title{rdcmchecks: Common Argument Checks for 'r-dcm' Packages}
 \description{
+\if{html}{\figure{logo.png}{options: style='float: right' alt='logo' width='120'}}
+
 Many packages in the 'r-dcm' family take similar arguments, which are checked for expected structures and values. Rather than duplicating code across several packages, commonly used check functions are included here. This package can then be imported to access the check functions in other packages.
 }
 \seealso{
