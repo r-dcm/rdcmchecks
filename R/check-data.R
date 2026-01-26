@@ -208,7 +208,7 @@ clean_data <- function(
 #' Check for consistent item names
 #'
 #' Item names can be provided in two places: As an identifier column in the
-#' Q-matrix, and as column names in the data. [reconcile_item_names()] ensures
+#' Q-matrix, and as column names in the data. `reconcile_item_names()` ensures
 #' that the information from both sources (if provided) is consistent.
 #'
 #' @inheritParams abort_bad_argument

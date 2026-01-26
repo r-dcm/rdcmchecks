@@ -2,6 +2,7 @@
 
 export(abort_bad_argument)
 export(check_data)
+export(check_missing)
 export(check_qmatrix)
 export(clean_data)
 export(clean_qmatrix)
