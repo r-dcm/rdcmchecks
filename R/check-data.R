@@ -74,7 +74,7 @@ check_data <- function(
   x <- x |>
     dplyr::mutate(
       dplyr::across(
-        dplyr::where(~ typeof(.x) == typeof(missing)) & -{{ identifier }},
+        dplyr::where(~ missing_type(.x, missing = missing)) & -{{ identifier }},
         \(x) dplyr::na_if(x, missing)
       )
     ) |>
@@ -96,7 +96,7 @@ check_data <- function(
 
   if (
     !all(sapply(dplyr::select(x, -{{ identifier }}), function(.x) {
-      all(.x %in% c(0L, 1L))
+      all(.x %in% c(0L, 1L, NA_integer_))
     }))
   ) {
     abort_bad_argument(

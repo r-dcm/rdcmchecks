@@ -64,6 +64,24 @@ test_that("check data", {
     item2 = c(1L, 0L, 0L, 1L, 0L),
     item3 = c(1L, 1L, 1L, 0L, 0L)
   )
+  test7_d <- data.frame(
+    resp = paste0("I_", 1:5),
+    item1 = c(0, 1, 1, NA, 1),
+    item2 = c(1, NA, 0, 1, 0),
+    item3 = c(1, 1, 1, 0, 0)
+  )
+  test8_d <- data.frame(
+    resp = paste0("I_", 1:5),
+    item1 = c(0L, 1L, 1L, NA, 1L),
+    item2 = c(1L, NA, 0L, 1L, 0L),
+    item3 = c(1L, 1L, 1L, 0L, 0L)
+  )
+  test9_d <- data.frame(
+    resp = paste0("I_", 1:5),
+    item1 = c(0L, 1L, 1L, 9L, 1L),
+    item2 = c(1L, 9L, 0L, 1L, 0L),
+    item3 = c(1L, 1L, 1L, 0L, 0L)
+  )
   check_d <- tibble::tibble(
     resp = paste0("I_", 1:5),
     item1 = c(0L, 1L, 1L, 0L, 1L),
@@ -75,14 +93,34 @@ test_that("check data", {
     item2 = c(1L, 0L, 0L, 1L, 0L),
     item3 = c(1L, 1L, 1L, 0L, 0L)
   )
+  check_d_missing <- tibble::tibble(
+    resp = paste0("I_", 1:5),
+    item1 = c(0L, 1L, 1L, NA, 1L),
+    item2 = c(1L, NA, 0L, 1L, 0L),
+    item3 = c(1L, 1L, 1L, 0L, 0L)
+  )
   expect_identical(check_data(test1_d, identifier = "resp"), check_d)
   expect_identical(check_data(test2_d, identifier = "resp"), check_d)
   expect_identical(check_data(test3_d, identifier = NULL), check_d_null)
   expect_identical(check_data(test4_d, identifier = "resp"), check_d)
   expect_identical(check_data(test5_d, identifier = "resp"), check_d)
   expect_identical(check_data(test6_d, identifier = NULL), check_d_null)
+  expect_identical(check_data(test7_d, identifier = "resp"), check_d_missing)
+  expect_identical(check_data(test8_d, identifier = "resp"), check_d_missing)
+  expect_identical(
+    check_data(test9_d, identifier = "resp", missing = 9L),
+    check_d_missing
+  )
+  expect_identical(
+    check_data(test9_d, identifier = "resp", missing = 9),
+    check_d_missing
+  )
   expect_identical(check_data(check_d, identifier = "resp"), check_d)
   expect_identical(check_data(check_d_null, identifier = NULL), check_d_null)
+  expect_identical(
+    check_data(check_d_missing, identifier = "resp"),
+    check_d_missing
+  )
 })
 
 test_that("clean data", {
@@ -209,6 +247,57 @@ test_that("clean data", {
   expect_equal(
     names(cleaned_d$respondent_names),
     as.character(dcmdata::mdm_data$respondent)
+  )
+
+  # roarpa ---------------------------------------------------------------------
+  cleaned_q <- clean_qmatrix(dcmdata::roarpa_qmatrix, identifier = "item")
+  cleaned_d <- clean_data(
+    dcmdata::roarpa_data,
+    identifier = "id",
+    cleaned_qmatrix = cleaned_q
+  )
+
+  expect_equal(length(cleaned_d), 5)
+  expect_equal(
+    names(cleaned_d),
+    c(
+      "clean_data",
+      "item_identifier",
+      "item_names",
+      "respondent_identifier",
+      "respondent_names"
+    )
+  )
+
+  expect_equal(ncol(cleaned_d$clean_data), 3)
+  expect_equal(
+    nrow(cleaned_d$clean_data),
+    nrow(dcmdata::roarpa_data) *
+      (ncol(dcmdata::roarpa_data) - 1) -
+      sum(is.na(dcmdata::roarpa_data))
+  )
+  expect_equal(colnames(cleaned_d$clean_data), c("resp_id", "item_id", "score"))
+  expect_equal(
+    vapply(cleaned_d$clean_data, typeof, character(1)),
+    c(resp_id = "integer", item_id = "integer", score = "integer")
+  )
+  expect_equal(
+    vapply(cleaned_d$clean_data, is.factor, logical(1)),
+    c(resp_id = TRUE, item_id = TRUE, score = FALSE)
+  )
+
+  expect_equal(cleaned_d$item_identifier, "item")
+  expect_equal(
+    names(cleaned_d$item_names),
+    colnames(dcmdata::roarpa_data[, -1])
+  )
+  expect_equal(
+    cleaned_d$respondent_identifier,
+    colnames(dcmdata::roarpa_data)[1]
+  )
+  expect_equal(
+    names(cleaned_d$respondent_names),
+    as.character(dcmdata::roarpa_data$id)
   )
 })
 
