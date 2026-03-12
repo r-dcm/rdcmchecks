@@ -22,13 +22,13 @@
 Source:
 [`DESCRIPTION`](https://github.com/r-dcm/rdcmchecks/blob/main/DESCRIPTION)
 
-Thompson W (2025). *rdcmchecks: Common Argument Checks for 'r-dcm'
-Packages*. R package version 0.1.0, <https://rdcmchecks.r-dcm.org>.
+Thompson W (2026). *rdcmchecks: Common Argument Checks for 'r-dcm'
+Packages*. R package version 0.1.1, <https://rdcmchecks.r-dcm.org>.
 
     @Manual{,
       title = {rdcmchecks: Common Argument Checks for 'r-dcm' Packages},
       author = {W. Jake Thompson},
-      year = {2025},
-      note = {R package version 0.1.0},
+      year = {2026},
+      note = {R package version 0.1.1},
       url = {https://rdcmchecks.r-dcm.org},
     }

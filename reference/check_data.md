@@ -114,16 +114,16 @@ check_data(example_data, identifier = "person")
 #> # A tibble: 10 × 4
 #>    person item1 item2 item3
 #>     <int> <int> <int> <int>
-#>  1      1     0     0     0
-#>  2      2     1     1     0
-#>  3      3     0     0     1
+#>  1      1     0     1     0
+#>  2      2     0     0     0
+#>  3      3     1     0     1
 #>  4      4     0     0     0
-#>  5      5     0     1     1
-#>  6      6     1     1     1
-#>  7      7     1     0     0
+#>  5      5     0     0     0
+#>  6      6     1     1     0
+#>  7      7     0     0     1
 #>  8      8     0     0     0
 #>  9      9     0     1     1
-#> 10     10     0     0     1
+#> 10     10     1     1     1
 example_qmatrix <- tibble::tibble(item = paste0("item", 1:3),
                                   att_1 = c(0, 0, 1),
                                   att_2 = c(1, 1, 1))
@@ -140,13 +140,13 @@ clean_data(example_data, identifier = "person",
 #> # A tibble: 30 × 3
 #>    resp_id item_id score
 #>    <fct>   <fct>   <int>
-#>  1 1       item1       1
+#>  1 1       item1       0
 #>  2 1       item2       1
 #>  3 1       item3       0
 #>  4 2       item1       0
 #>  5 2       item2       0
-#>  6 2       item3       0
-#>  7 3       item1       0
+#>  6 2       item3       1
+#>  7 3       item1       1
 #>  8 3       item2       1
 #>  9 3       item3       1
 #> 10 4       item1       1
