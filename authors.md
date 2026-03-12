@@ -20,7 +20,7 @@
 ## Citation
 
 Source:
-[`DESCRIPTION`](https://github.com/r-dcm/rdcmchecks/blob/main/DESCRIPTION)
+[`DESCRIPTION`](https://github.com/r-dcm/rdcmchecks/blob/v0.1.1/DESCRIPTION)
 
 Thompson W (2026). *rdcmchecks: Common Argument Checks for 'r-dcm'
 Packages*. R package version 0.1.1, <https://rdcmchecks.r-dcm.org>.
