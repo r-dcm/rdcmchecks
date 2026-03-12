@@ -2,6 +2,10 @@
 
 ## rdcmchecks (development version)
 
+## rdcmchecks 0.1.1
+
+CRAN release: 2026-03-11
+
 - Fixed issue in
   [`check_data()`](https://rdcmchecks.r-dcm.org/dev/reference/check_data.md)
   where missing responses resulted in an error when `missing` was
